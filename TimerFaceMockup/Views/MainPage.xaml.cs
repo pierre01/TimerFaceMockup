@@ -57,10 +57,9 @@ public partial class MainPage : ContentPage
         myGraphicsView.Invalidate();
         var timeLeft = (maxTime - time).ToString();
         TimeLabel.Text = timeLeft;
-        TextToSpeech.Default.SpeakAsync(timeLeft);
         if (maxTime - time <= 5)
         {
-      
+            TextToSpeech.Default.SpeakAsync(timeLeft); 
             TimeLabel1.Opacity = 1;
             await Task.WhenAll
             (
