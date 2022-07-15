@@ -59,10 +59,10 @@ public partial class MainPage : ContentPage
         TimeLabel.Text = timeLeft;
         if (maxTime - time <= 5)
         {
-            TextToSpeech.Default.SpeakAsync(timeLeft); 
             TimeLabel1.Opacity = 1;
             await Task.WhenAll
             (
+                TextToSpeech.Default.SpeakAsync(timeLeft), 
                 TimeLabel1.FadeTo(0, 600),
                 TimeLabel1.ScaleTo(3, 600, Easing.CubicOut)
             );
