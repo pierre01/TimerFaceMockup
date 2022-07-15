@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="TimerFaceMockup.Views.MainPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:views="clr-namespace:TimerFaceMockup.Views"
+    Title="MainPage">
+    <ContentPage.Resources>
+        <views:TimerFace x:Key="TimerFace01" />
+    </ContentPage.Resources>
+    <Grid
+        ColumnDefinitions="*,Auto,*"
+        RowDefinitions="100,*"
+        VerticalOptions="FillAndExpand">
+        <Button
+            Grid.Column="1"
+            Margin="16"
+            Clicked="StartButtonClicked"
+            Text="Start!" />
+        <Grid
+            Grid.Row="1"
+            Grid.Column="1"
+            VerticalOptions="Start">
+
+            <GraphicsView
+                x:Name="myGraphicsView"
+                Drawable="{StaticResource TimerFace01}"
+                HeightRequest="400"
+                HorizontalOptions="End"
+                VerticalOptions="Start"
+                WidthRequest="400" />
+            <Grid HorizontalOptions="Center">
+                <Label
+                    FontFamily="digitalmono"
+                    FontSize="200"
+                    HorizontalTextAlignment="End"
+                    Text="88"
+                    TextColor="#3cffffff"
+                    VerticalOptions="Center"
+                     />
+                <Label
+                    x:Name="TimeLabel"
+                    FontFamily="digitalmono"
+                    FontSize="200"
+                    HorizontalTextAlignment="End"
+                    Text="00"
+                    VerticalOptions="Center"
+                     />
+                <Label
+                    x:Name="TimeLabel1"
+                    FontFamily="digitalmono"
+                    FontSize="200"
+                    HorizontalTextAlignment="End"
+                    Text="{Binding Text,Source={x:Reference TimeLabel}}"
+                    VerticalOptions="Center"
+                     />
+            </Grid>
+        </Grid>
+    </Grid>
+</ContentPage>
