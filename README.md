@@ -1,5 +1,5 @@
 # C# MAUI TimerFaceMockup
-Cross platform Timer Mockup with animation and TTS sample using MAUI for Android, Windows and IOS
+Cross platform (MAUI) Timer Mockup with animation and TTS sample using MAUI for Android, Windows and IOS
 Shows Graphics, Animations TextToSpeech and PeriodicTimer
 
 
