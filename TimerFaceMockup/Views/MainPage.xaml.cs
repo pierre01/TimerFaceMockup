@@ -1,16 +1,22 @@
+using Plugin.Maui.Audio;
+
 namespace TimerFaceMockup.Views;
 
 public partial class MainPage : ContentPage
 {
     public TimerFace TimerFace1 { get; set; }
 
+    private IAudioPlayer _playerBeep;
+    private IAudioPlayer _playerStart;
+
     PeriodicTimer _clock;
-    public MainPage()
+    public MainPage(IAudioManager audioManager)
 	{
 		InitializeComponent();
         ((TimerFace)myGraphicsView.Drawable).InitializeValues(maxTime, maxExercise); 
         myGraphicsView.Invalidate();
-        
+
+        this.audioManager = audioManager;
         
 
     }
@@ -19,9 +25,17 @@ public partial class MainPage : ContentPage
     int exercise = 0;
     int maxExercise = 5;
     int maxTime = 10;
+    private IAudioManager audioManager;
+
     private async void StartButtonClicked(object sender, EventArgs e)
 	{
-        if( _clock ==null)
+        if (_playerBeep == null)
+        {
+            _playerBeep = audioManager.CreatePlayer(await FileSystem.OpenAppPackageFileAsync("beep.wav"));
+            _playerStart = audioManager.CreatePlayer(await FileSystem.OpenAppPackageFileAsync("start.wav"));
+        }
+
+        if ( _clock == null)
         {
             _clock = new PeriodicTimer(TimeSpan.FromSeconds(1));
         }
@@ -33,11 +47,16 @@ public partial class MainPage : ContentPage
             exercise = 0;
             return;
         }
-
-        while(await _clock.WaitForNextTickAsync())
+        _playerStart.Play();
+        while (await _clock.WaitForNextTickAsync())
         {
             OnTick();
         }
+
+        _playerBeep.Dispose();
+        _playerBeep = null;
+        _playerStart.Dispose();
+        _playerStart = null;
     }
 
     public async void OnTick()
@@ -59,13 +78,15 @@ public partial class MainPage : ContentPage
         TimeLabel.Text = timeLeft;
         if (maxTime - time <= 5)
         {
+            _playerBeep.Play();
             TimeLabel1.Opacity = 1;
             await Task.WhenAll
             (
-                TextToSpeech.Default.SpeakAsync(timeLeft), 
+                
+                //TextToSpeech.Default.SpeakAsync(timeLeft),
                 TimeLabel1.FadeTo(0, 600),
                 TimeLabel1.ScaleTo(3, 600, Easing.CubicOut)
-            );
+            ); 
             TimeLabel1.ScaleTo(1, 10);
 
         }

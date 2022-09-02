@@ -5,6 +5,9 @@ using Windows.Graphics;
 using Microsoft.Maui.LifecycleEvents;
 #endif
 
+using Plugin.Maui.Audio;
+using TimerFaceMockup.Views;
+
 namespace TimerFaceMockup;
 
 public static class MauiProgram
@@ -42,6 +45,8 @@ public static class MauiProgram
                 });
             });
 #endif
+        builder.Services.AddSingleton(AudioManager.Current);
+        builder.Services.AddTransient<MainPage>();
         return builder.Build();
 	}
 }
