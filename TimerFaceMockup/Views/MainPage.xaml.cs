@@ -78,8 +78,9 @@ public partial class MainPage : ContentPage
         TimeLabel.Text = timeLeft;
         if (maxTime - time <= 5)
         {
-            _playerBeep.Play();
             TimeLabel1.Opacity = 1;
+
+            _playerBeep.Play();
             await Task.WhenAll
             (
                 
@@ -87,6 +88,13 @@ public partial class MainPage : ContentPage
                 TimeLabel1.FadeTo(0, 600),
                 TimeLabel1.ScaleTo(3, 600, Easing.CubicOut)
             ); 
+
+
+
+
+
+
+
             TimeLabel1.ScaleTo(1, 10);
 
         }
